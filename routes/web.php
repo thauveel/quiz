@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\isAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('WelcomeNew', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -14,9 +15,16 @@ Route::get('/', function () {
     ]);
 });
 
+//admin routes
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified', 'admin'])->name('dashboard');
+})->middleware(['auth', 'verified', isAdmin::class])->name('dashboard');
+
+
+//user routes
+Route::get('/user_dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('user.dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
