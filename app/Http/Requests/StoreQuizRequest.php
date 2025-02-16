@@ -22,7 +22,9 @@ class StoreQuizRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:100',
+            'description' => 'nullable|max:255',
+            'status' => 'in:draft,published',
         ];
     }
 }

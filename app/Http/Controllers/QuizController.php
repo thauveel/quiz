@@ -29,7 +29,9 @@ class QuizController extends Controller
      */
     public function store(StoreQuizRequest $request)
     {
-        //
+        $quiz = Quiz::create($request->validated());
+
+       
     }
 
     /**
